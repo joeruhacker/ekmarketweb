@@ -2,9 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <!-- Позволяет автоматически подстраиваться под экраны мобильных устройств -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Telegram Mini-App</title>
+  <title>ЕК Маркет</title>
   <style>
     :root {
       --color1: #415A77; /* Тёмно-синий */
@@ -30,25 +29,98 @@
       overflow-x: hidden;
     }
 
+    h1, h2, h3, h4, h5 {
+      margin: 10px 0;
+    }
+
+    /* Заголовок (логотип + приветствие) */
     header {
-      background-color: var(--color1);
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
+      width: 100%;
       text-align: center;
+      margin-bottom: 20px;
+    }
+
+    header img {
+      max-width: 180px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
     header h1 {
-      color: #fff;
-      font-size: 1.5rem;
+      margin-top: 10px;
+      font-size: 1.6rem;
+      color: var(--color1);
     }
 
-    .container {
+    /* Главная страница (кнопки) */
+    .main-menu {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .menu-button {
+      background-color: #fff;
+      color: var(--color3);
+      border: 2px solid var(--color3);
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+      width: 240px;
+      text-align: center;
+    }
+
+    .menu-button:hover {
+      background-color: var(--color3);
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    /* Общая стилизация для "страниц" */
+    .page {
+      display: none; /* Скрываем по умолчанию, кроме главной */
+      animation: fadeIn 0.4s forwards;
+    }
+
+    /* Анимированное появление */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Кнопка "На главную" */
+    .back-button {
+      margin-top: 20px;
+      background-color: var(--color1);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+
+    .back-button:hover {
+      opacity: 0.8;
+    }
+
+    /* Страница "Каталог товаров" */
+    .catalog-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
+      margin-top: 20px;
+      margin-bottom: 40px;
     }
 
     .card {
@@ -69,7 +141,7 @@
 
     .card img {
       width: 100%;
-      height: 180px; 
+      height: 180px;
       object-fit: cover;
     }
 
@@ -101,7 +173,7 @@
       color: var(--color1);
     }
 
-    /* Модальное окно */
+    /* Модальные окна (описания товаров) */
     .modal-overlay {
       position: fixed;
       top: 0; 
@@ -156,10 +228,37 @@
       }
     }
 
-    /* Адаптивность для небольших экранов */
+    /* Небольшие стили для контента страниц поддержки, подарка и инструкций */
+    .page-content {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+
+    .page-content h2 {
+      color: var(--color1);
+      margin-bottom: 10px;
+    }
+
+    .page-content p {
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    /* Адаптивность */
     @media (max-width: 480px) {
+      header img {
+        max-width: 120px;
+      }
       header h1 {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
+      }
+      .menu-button {
+        width: 200px;
+        font-size: 0.9rem;
       }
       .card img {
         height: auto;
@@ -170,59 +269,131 @@
       .card-description-link {
         font-size: 0.85rem;
       }
-      .modal {
-        width: 95%;
-        padding: 15px;
-      }
-      .modal p {
-        font-size: 0.95rem;
-      }
     }
   </style>
 </head>
 <body>
+  <!-- ШАПКА (логотип + приветствие) -->
   <header>
-    <h1>ЕК Маркет</h1>
+    <img src="https://i.pinimg.com/1200x/8a/d9/0c/8ad90c3dcd9937affaf0e150db563e6e.jpg" alt="Логотип">
+    <h1>Добро пожаловать в ЕК Маркет</h1>
   </header>
 
-  <div class="container">
-    <!-- Товар 1: Коробки обувные -->
-    <div class="card" onclick="openModal('modal-1')">
-      <img src="https://i.pinimg.com/1200x/9e/9e/38/9e9e38e156d754d5899fb1db491f8cf9.jpg" alt="Коробки обувные">
-      <div class="card-content">
-        <div class="card-title">Коробки обувные</div>
-        <div class="card-description-link">Посмотреть описание &rarr;</div>
-      </div>
-    </div>
-
-    <!-- Товар 2: Ночник с тюльпанами -->
-    <div class="card" onclick="openModal('modal-2')">
-      <img src="https://i.pinimg.com/1200x/8a/a2/e4/8aa2e400943d61dd3b5bf1d31de3fcbd.jpg" alt="Ночник с тюльпанами">
-      <div class="card-content">
-        <div class="card-title">Ночник с тюльпанами</div>
-        <div class="card-description-link">Посмотреть описание &rarr;</div>
-      </div>
-    </div>
-
-    <!-- Товар 3: Румбоксы (Киберпанк 2077) -->
-    <div class="card" onclick="openModal('modal-3')">
-      <img src="https://i.pinimg.com/1200x/e3/5f/af/e35faf12250d07dbafec02e884e763bf.jpg" alt="Румбоксы «Киберпанк 2077»">
-      <div class="card-content">
-        <div class="card-title">Румбоксы «Киберпанк 2077»</div>
-        <div class="card-description-link">Посмотреть описание &rarr;</div>
-      </div>
-    </div>
-
-    <!-- Товар 4: Москитные сетки -->
-    <div class="card" onclick="openModal('modal-4')">
-      <img src="https://i.pinimg.com/1200x/45/c1/cf/45c1cffa12dd4ddf99513654b94c3362.jpg" alt="Москитные сетки">
-      <div class="card-content">
-        <div class="card-title">Москитные сетки</div>
-        <div class="card-description-link">Посмотреть описание &rarr;</div>
-      </div>
+  <!-- ГЛАВНАЯ СТРАНИЦА (КНОПКИ) -->
+  <div class="page" id="home" style="display: block;"> <!-- Показываем по умолчанию -->
+    <div class="main-menu">
+      <button class="menu-button" onclick="showPage('catalog')">Каталог товаров</button>
+      <button class="menu-button" onclick="showPage('support')">Обратиться в поддержку</button>
+      <button class="menu-button" onclick="showPage('gift')">Получить подарок</button>
+      <button class="menu-button" onclick="showPage('instructions')">Инструкции</button>
     </div>
   </div>
 
+  <!-- СТРАНИЦА "КАТАЛОГ ТОВАРОВ" -->
+  <div class="page" id="catalog">
+    <h2 style="text-align:center; color: var(--color1); margin-bottom: 20px;">Каталог товаров</h2>
+    <div class="catalog-container">
+      <!-- Товар 1: Коробки обувные -->
+      <div class="card" onclick="openModal('modal-1')">
+        <img src="https://i.pinimg.com/1200x/9e/9e/38/9e9e38e156d754d5899fb1db491f8cf9.jpg" alt="Коробки обувные">
+        <div class="card-content">
+          <div class="card-title">Коробки обувные</div>
+          <div class="card-description-link">Посмотреть описание &rarr;</div>
+        </div>
+      </div>
+
+      <!-- Товар 2: Ночник с тюльпанами -->
+      <div class="card" onclick="openModal('modal-2')">
+        <img src="https://i.pinimg.com/1200x/8a/a2/e4/8aa2e400943d61dd3b5bf1d31de3fcbd.jpg" alt="Ночник с тюльпанами">
+        <div class="card-content">
+          <div class="card-title">Ночник с тюльпанами</div>
+          <div class="card-description-link">Посмотреть описание &rarr;</div>
+        </div>
+      </div>
+
+      <!-- Товар 3: Румбоксы (Киберпанк 2077) -->
+      <div class="card" onclick="openModal('modal-3')">
+        <img src="https://i.pinimg.com/1200x/e3/5f/af/e35faf12250d07dbafec02e884e763bf.jpg" alt="Румбоксы «Киберпанк 2077»">
+        <div class="card-content">
+          <div class="card-title">Румбоксы «Киберпанк 2077»</div>
+          <div class="card-description-link">Посмотреть описание &rarr;</div>
+        </div>
+      </div>
+
+      <!-- Товар 4: Москитные сетки -->
+      <div class="card" onclick="openModal('modal-4')">
+        <img src="https://i.pinimg.com/1200x/45/c1/cf/45c1cffa12dd4ddf99513654b94c3362.jpg" alt="Москитные сетки">
+        <div class="card-content">
+          <div class="card-title">Москитные сетки</div>
+          <div class="card-description-link">Посмотреть описание &rarr;</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Кнопка "На главную" -->
+    <div style="text-align: center;">
+      <button class="back-button" onclick="showPage('home')">На главную</button>
+    </div>
+  </div>
+
+  <!-- СТРАНИЦА "ОБРАТИТЬСЯ В ПОДДЕРЖКУ" -->
+  <div class="page" id="support">
+    <div class="page-content">
+      <h2>Обратиться в поддержку</h2>
+      <p>Если у вас возникли вопросы или сложности, свяжитесь с нами одним из удобных способов:</p>
+      <ul>
+        <li>Телефон: +7 (999) 123-45-67</li>
+        <li>Почта: support@ek-market.ru</li>
+        <li>Telegram: @ekmarket_support</li>
+      </ul>
+      <p>Мы стараемся отвечать как можно быстрее и будем рады вам помочь!</p>
+      <button class="back-button" onclick="showPage('home')">На главную</button>
+    </div>
+  </div>
+
+  <!-- СТРАНИЦА "ПОЛУЧИТЬ ПОДАРОК" -->
+  <div class="page" id="gift">
+    <div class="page-content">
+      <h2>Получить подарок</h2>
+      <p>
+        У нас действует специальная акция: сделайте покупку на сумму от 3000 рублей и получите приятный сюрприз! 
+        Подробности акции:
+      </p>
+      <ul>
+        <li>Срок действия: до конца текущего месяца.</li>
+        <li>Количество подарков ограничено.</li>
+        <li>При единовременном заказе на сумму более 3000 рублей — подарок в корзине.</li>
+      </ul>
+      <p>
+        Хотите узнать подробнее? Свяжитесь с менеджером или оформите заказ прямо сейчас. 
+        Пусть маленький бонус порадует вас и сделает покупки в ЕК Маркет ещё приятнее.
+      </p>
+      <button class="back-button" onclick="showPage('home')">На главную</button>
+    </div>
+  </div>
+
+  <!-- СТРАНИЦА "ИНСТРУКЦИИ" -->
+  <div class="page" id="instructions">
+    <div class="page-content">
+      <h2>Инструкции к товарам</h2>
+      <p>
+        Здесь собраны инструкции по сборке и эксплуатации наших товаров. Советы и лайфхаки, которые помогут максимально эффективно использовать приобретённую продукцию:
+      </p>
+      <ol>
+        <li><strong>Коробки обувные:</strong> Разверните коробку, совместите боковые крепления и вставьте нужные перегородки. Используйте прозрачные стенки, чтобы найти нужную пару обуви за секунды.</li>
+        <li><strong>Ночник с тюльпанами:</strong> Установите на ровную поверхность, вставьте батарейки или подключите питание. Ночник можно протирать мягкой сухой тканью.</li>
+        <li><strong>Румбоксы «Киберпанк 2077»:</strong> Собирайте по прилагаемым схемам, используйте аккуратно клей и дайте время высохнуть деталям. Установите в недоступном для малышей месте.</li>
+        <li><strong>Москитные сетки:</strong> Следуйте пошаговой инструкции в комплекте. При необходимости обрежьте сетку по размеру вашего окна или двери. Закрепите каркас и зафиксируйте сетку.</li>
+      </ol>
+      <p>
+        Если у вас остались вопросы – обратитесь в поддержку, мы будем рады помочь!
+      </p>
+      <button class="back-button" onclick="showPage('home')">На главную</button>
+    </div>
+  </div>
+
+
+  <!-- МОДАЛЬНЫЕ ОКНА (Описание товаров) -->
   <!-- Модальное окно 1 -->
   <div class="modal-overlay" id="modal-1">
     <div class="modal">
@@ -287,20 +458,44 @@
   </div>
 
   <script>
-    // Открыть модальное окно
+    // Переключение "страниц" (home, catalog, support, gift, instructions)
+    function showPage(pageId) {
+      // Скрываем все элементы с классом .page
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => {
+        page.style.display = 'none';
+      });
+      // Показываем нужную страницу
+      const targetPage = document.getElementById(pageId);
+      if (targetPage) {
+        targetPage.style.display = 'block';
+      }
+      // Закрываем все возможные модальные окна (если вдруг остались открытыми)
+      closeAllModals();
+    }
+
+    // Открыть конкретное модальное окно (описание товара)
     function openModal(id) {
       const modal = document.getElementById(id);
       if (modal) {
-        modal.style.display = "flex"; // flex для центрирования по горизонтали и вертикали
+        modal.style.display = "flex"; // flex для выравнивания по центру
       }
     }
 
-    // Закрыть модальное окно
+    // Закрыть конкретное модальное окно
     function closeModal(id) {
       const modal = document.getElementById(id);
       if (modal) {
         modal.style.display = "none";
       }
+    }
+
+    // Закрыть все модальные окна (для очистки при переключении страниц)
+    function closeAllModals() {
+      const overlays = document.querySelectorAll(".modal-overlay");
+      overlays.forEach(overlay => {
+        overlay.style.display = "none";
+      });
     }
 
     // Закрытие по клику вне модального окна
