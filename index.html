@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Telegram Mini-App</title>
+  <style>
+    :root {
+      --color1: #415A77; /* Тёмно-синий */
+      --color2: #E0E1DD; /* Светло-серый фон */
+      --color3: #778DA9; /* Средний синий */
+      --color4: #D89B65; /* Тёплый оранжево-коричневый */
+      --text-color: #415A77;
+      --body-font: "Segoe UI", Tahoma, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--color2);
+      font-family: var(--body-font);
+      color: var(--text-color);
+      padding: 20px;
+    }
+
+    header {
+      background-color: var(--color1);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      color: #fff;
+      font-size: 1.5rem;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 15px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: var(--color3);
+    }
+
+    /* Кнопка/ссылка для описания */
+    .card-description-link {
+      margin-top: auto;
+      text-align: right;
+      display: inline-block;
+      font-size: 0.9rem;
+      color: var(--color4);
+      transition: color 0.3s ease;
+    }
+
+    .card-description-link:hover {
+      color: var(--color1);
+    }
+
+    /* Модальное окно */
+    .modal-overlay {
+      position: fixed;
+      top: 0; 
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .modal {
+      background-color: #fff;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 90%;
+      padding: 20px;
+      position: relative;
+      animation: showModal 0.3s ease forwards;
+    }
+
+    .modal h2 {
+      margin-bottom: 10px;
+      color: var(--color1);
+    }
+
+    .modal p {
+      margin-bottom: 20px;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--color3);
+    }
+
+    @keyframes showModal {
+      from {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Мини-приложение Telegram</h1>
+  </header>
+
+  <div class="container">
+    <!-- Товар 1: Коробки обувные -->
+    <div class="card" onclick="openModal('modal-1')">
+      <img src="https://i.pinimg.com/1200x/9e/9e/38/9e9e38e156d754d5899fb1db491f8cf9.jpg" alt="Коробки обувные">
+      <div class="card-content">
+        <div class="card-title">Коробки обувные</div>
+        <div class="card-description-link">Посмотреть описание &rarr;</div>
+      </div>
+    </div>
+
+    <!-- Товар 2: Ночник с тюльпанами -->
+    <div class="card" onclick="openModal('modal-2')">
+      <img src="https://i.pinimg.com/1200x/8a/a2/e4/8aa2e400943d61dd3b5bf1d31de3fcbd.jpg" alt="Ночник с тюльпанами">
+      <div class="card-content">
+        <div class="card-title">Ночник с тюльпанами</div>
+        <div class="card-description-link">Посмотреть описание &rarr;</div>
+      </div>
+    </div>
+
+    <!-- Товар 3: Румбоксы (Киберпанк 2077) -->
+    <div class="card" onclick="openModal('modal-3')">
+      <img src="https://i.pinimg.com/1200x/e3/5f/af/e35faf12250d07dbafec02e884e763bf.jpg" alt="Румбокс Киберпанк">
+      <div class="card-content">
+        <div class="card-title">Румбоксы "Киберпанк 2077"</div>
+        <div class="card-description-link">Посмотреть описание &rarr;</div>
+      </div>
+    </div>
+
+    <!-- Товар 4: Москитные сетки -->
+    <div class="card" onclick="openModal('modal-4')">
+      <img src="https://i.pinimg.com/1200x/45/c1/cf/45c1cffa12dd4ddf99513654b94c3362.jpg" alt="Москитные сетки">
+      <div class="card-content">
+        <div class="card-title">Москитные сетки</div>
+        <div class="card-description-link">Посмотреть описание &rarr;</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно 1 -->
+  <div class="modal-overlay" id="modal-1">
+    <div class="modal">
+      <button class="close-modal" onclick="closeModal('modal-1')">×</button>
+      <h2>Коробки обувные</h2>
+      <p>
+        Коробки для хранения обуви, предназначены для компактного хранения вещей как в закрытом шкафу, так и на открытых полках. 
+        Систематизируйте пространство, чтобы каждая вещь лежала на своем месте и была под рукой. Коробки имеют складную конструкцию и малый вес и подходят для любых вещей и предметов. 
+        Набор коробок для хранения выполнен из плотного прозрачного пластика, поэтому вы с легкостью найдете нужную пару обуви.
+      </p>
+    </div>
+  </div>
+
+  <!-- Модальное окно 2 -->
+  <div class="modal-overlay" id="modal-2">
+    <div class="modal">
+      <button class="close-modal" onclick="closeModal('modal-2')">×</button>
+      <h2>Ночник с тюльпанами</h2>
+      <p>
+        Оригинальный подарок для поделок своими руками. Ночник с бесконечными тюльпанами - это символ нежности и любви. 
+        Светильник с цветами в форме куба очень функционален, он послужит вам днем в качестве зеркала, а ночью – ночника. 
+        Он идеально подходит для создания в комнате мягкого света, подойдет для детской спальни. 
+        Свечение теплого света через тюльпаны создаст волшебную и романтичную атмосферу в вашей комнате. 
+        Ночник с цветами добавит изысканности и уюта вашему дому. Светодиодная лампа в виде цветка добавляет изюминку вашему подарку.
+      </p>
+    </div>
+  </div>
+
+  <!-- Модальное окно 3 -->
+  <div class="modal-overlay" id="modal-3">
+    <div class="modal">
+      <button class="close-modal" onclick="closeModal('modal-3')">×</button>
+      <h2>Румбоксы «Киберпанк 2077»</h2>
+      <p>
+        Открой дверь в мир киберпанка, позволь будущему ожить в твоем доме! Мы с гордостью представляем тебе стильную комнатную шкатулку 
+        в стиле "Киберпанк 2077" - это коллекционный предмет, сочетающий в себе практичность и уникальный гламур киберпанкового стиля.
+        Эта шкатулка вдохновлена атмосферой "Киберпанк 2077" и создана с особым вниманием к деталям. 
+        Она пропитана духом будущего и технологической эстетики киберпанка, чтобы ты мог привнести настоящий дух киберпанк стиля в свой дом.
+      </p>
+    </div>
+  </div>
+
+  <!-- Модальное окно 4 -->
+  <div class="modal-overlay" id="modal-4">
+    <div class="modal">
+      <button class="close-modal" onclick="closeModal('modal-4')">×</button>
+      <h2>Москитные сетки</h2>
+      <p>
+        Набор для изготовления москитной сетки — это удобное решение для защиты вашего дома от насекомых и загрязнений. 
+        Включает в себя все необходимые материалы и инструменты для самостоятельного изготовления москитной сетки, которая отлично подойдет для окон и дверей.
+        <br><br>
+        В набор входят:
+        <ul>
+          <li><strong>Москитная сетка</strong> — выполнена из прочного материала, который обеспечивает надежную защиту от насекомых, сохраняя при этом видимость и поток воздуха.</li>
+          <li><strong>Каркас</strong> — алюминиевые профили, которые легко монтируются и не подвержены коррозии.</li>
+          <li><strong>Крепежные элементы</strong> — все необходимые гайки, болты и приспособления для фиксации сетки в оконных или дверных проемах.</li>
+          <li><strong>Инструкция по сборке</strong> — пошаговое руководство, чтобы вы могли легко установить москитную сетку.</li>
+        </ul>
+        С этим набором вы сможете защитить свой дом от насекомых, создав комфорт и уют в вашем жилище.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Открыть модальное окно
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.style.display = "flex"; // flex для выравнивания по центру
+      }
+    }
+
+    // Закрыть модальное окно
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // Если пользователь кликает вне модального окна – закрываем
+    window.addEventListener("click", function(e) {
+      const overlays = document.querySelectorAll(".modal-overlay");
+      overlays.forEach(overlay => {
+        if (e.target === overlay) {
+          overlay.style.display = "none";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
