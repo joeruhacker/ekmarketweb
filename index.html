@@ -2,6 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
+  <!-- Позволяет автоматически подстраиваться под экраны мобильных устройств -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Telegram Mini-App</title>
   <style>
     :root {
@@ -24,6 +26,8 @@
       font-family: var(--body-font);
       color: var(--text-color);
       padding: 20px;
+      max-width: 100%;
+      overflow-x: hidden;
     }
 
     header {
@@ -65,7 +69,7 @@
 
     .card img {
       width: 100%;
-      height: 180px;
+      height: 180px; 
       object-fit: cover;
     }
 
@@ -84,7 +88,6 @@
       color: var(--color3);
     }
 
-    /* Кнопка/ссылка для описания */
     .card-description-link {
       margin-top: auto;
       text-align: right;
@@ -152,6 +155,29 @@
         opacity: 1;
       }
     }
+
+    /* Адаптивность для небольших экранов */
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.2rem;
+      }
+      .card img {
+        height: auto;
+      }
+      .card-title {
+        font-size: 1rem;
+      }
+      .card-description-link {
+        font-size: 0.85rem;
+      }
+      .modal {
+        width: 95%;
+        padding: 15px;
+      }
+      .modal p {
+        font-size: 0.95rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -180,9 +206,9 @@
 
     <!-- Товар 3: Румбоксы (Киберпанк 2077) -->
     <div class="card" onclick="openModal('modal-3')">
-      <img src="https://i.pinimg.com/1200x/e3/5f/af/e35faf12250d07dbafec02e884e763bf.jpg" alt="Румбокс Киберпанк">
+      <img src="https://i.pinimg.com/1200x/e3/5f/af/e35faf12250d07dbafec02e884e763bf.jpg" alt="Румбоксы «Киберпанк 2077»">
       <div class="card-content">
-        <div class="card-title">Румбоксы "Киберпанк 2077"</div>
+        <div class="card-title">Румбоксы «Киберпанк 2077»</div>
         <div class="card-description-link">Посмотреть описание &rarr;</div>
       </div>
     </div>
@@ -265,7 +291,7 @@
     function openModal(id) {
       const modal = document.getElementById(id);
       if (modal) {
-        modal.style.display = "flex"; // flex для выравнивания по центру
+        modal.style.display = "flex"; // flex для центрирования по горизонтали и вертикали
       }
     }
 
@@ -277,7 +303,7 @@
       }
     }
 
-    // Если пользователь кликает вне модального окна – закрываем
+    // Закрытие по клику вне модального окна
     window.addEventListener("click", function(e) {
       const overlays = document.querySelectorAll(".modal-overlay");
       overlays.forEach(overlay => {
